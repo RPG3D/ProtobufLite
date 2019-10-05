@@ -1,2 +1,3 @@
 # ProtobufLite
 test auto compile ProtobufLite on Github Action
+the mac compiled Android so may have some bugs...
