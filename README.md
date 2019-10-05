@@ -1,2 +1,2 @@
 # ProtobufLite
-test auto compile ProtobufLite on Github CI
+test auto compile ProtobufLite on Github Action
