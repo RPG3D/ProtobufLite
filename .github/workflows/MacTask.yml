@@ -1,6 +1,9 @@
 name: MacTask
 
-on: [push]
+on:
+  push:
+    paths:
+    - '**.md'
 
 jobs:
   build:
@@ -9,8 +12,8 @@ jobs:
     
     steps:
     
-    #- name: LogAllEnv
-    #  run: printenv
+    - name: LogAllEnv
+      run: printenv
     
     - uses: actions/checkout@v1
 

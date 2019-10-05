@@ -1,6 +1,9 @@
 name: WindowsTask
 
-on: [push]
+on:
+  push:
+    paths:
+    - '**.md'
 
 jobs:
   build:
@@ -9,8 +12,8 @@ jobs:
     
     steps:
     
-    #- name: LogAllEnv
-    #  run: set
+    - name: LogAllEnv
+      run: set
       
     - uses: actions/checkout@v1
     
