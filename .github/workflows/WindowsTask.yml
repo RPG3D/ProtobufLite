@@ -20,8 +20,8 @@ jobs:
     - name: BuildWindows
       run: BuildWindows.bat
       
-    #- name: BuildAndroid
-    #  run: BuildAndroid.bat
+    - name: BuildAndroid
+      run: BuildAndroid.bat
       
       
     - name: CommitBinaries
@@ -33,6 +33,7 @@ jobs:
         git checkout master
         git pull origin master
         git add Release/Windows
+        git add Release/Android
         git commit -m "[%GITHUB_WORKFLOW%]Auto commit from Github Action"
         git remote set-url --push origin https://%GITHUB_ACTOR%:%GITHUB_TOKEN%@github.com/%GITHUB_REPOSITORY%
         git push origin master

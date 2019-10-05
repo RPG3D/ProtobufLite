@@ -1,13 +1,6 @@
 
-if not exist "D:\android-ndk-r16b" (
-bitsadmin.exe /transfer "Download NDK16B" https://dl.google.com/android/repository/android-ndk-r16b-windows-x86_64.zip D:\android-ndk-r16b.zip
 
-7z x D:/android-ndk-r16b.zip -oD:
-)
-
-
-
-set NDK_ROOT=D:/android-ndk-r16b
+set NDK_ROOT=%ANDROID_NDK_HOME%
 
 if not exist "%~dp0%NDKBuild" (
 	mkdir NDKBuild

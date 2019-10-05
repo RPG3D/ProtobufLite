@@ -1,3 +1,3 @@
 # ProtobufLite
 test auto compile ProtobufLite on Github Action
-the mac compiled Android so may have some bugs...
+compile Win64&Android on Windows; iOS on Mac

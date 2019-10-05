@@ -20,8 +20,8 @@ jobs:
     - name: BuildIOS
       run: sh ./BuildIOS.sh  
       
-    - name: BuildAndroid
-      run: sh ./BuildAndroid.sh  
+    #- name: BuildAndroid
+    #  run: sh ./BuildAndroid.sh  
       
     - name: CommitBinaries
       env:
@@ -32,7 +32,6 @@ jobs:
         git checkout master
         sudo git pull origin master
         sudo git add Release/iOS
-        sudo git add Release/Android
         sudo git commit -m "[$GITHUB_WORKFLOW]Auto commit from Github Action"
         git remote set-url --push origin https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
         git push origin master
