@@ -1,0 +1,35 @@
+name: WindowsTask
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    
+    steps:
+    
+    #- name: LogAllEnv
+    #  run: set
+      
+    - uses: actions/checkout@v1
+    
+    - name: BuildWindows
+      run: BuildWindows.bat
+      
+    #- name: BuildAndroid
+    #  run: BuildAndroid.bat
+      
+      
+    - name: CommitBinaries
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config user.email "imxqliu@live.com"
+        git config user.name "%GITHUB_ACTOR%"
+        git checkout master
+        git pull origin master
+        git add Release/Windows
+        git commit -m "[%GITHUB_WORKFLOW%]Auto commit from Github Action"
+        git remote set-url --push origin https://%GITHUB_ACTOR%:%GITHUB_TOKEN%@github.com/%GITHUB_REPOSITORY%
+        git push origin master
