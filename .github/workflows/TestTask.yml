@@ -19,8 +19,8 @@ jobs:
     
     - name: ListProgram
       run : |
-        dir C:/Program Files
+        dir "C:/Program Files"
         dir D:
-        dir D:/Program Files
+        dir "D:/Program Files"
     
     
