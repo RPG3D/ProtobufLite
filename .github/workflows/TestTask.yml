@@ -19,6 +19,5 @@ jobs:
     
     - name: QueryUnrealVersion
       run : |
-        dir "C:/Program Files"
-        dir "C:/Program Files (x86)"
         dir "C:/Program Files (x86)/Epic Games"
+        Ue4editor-CMD.exe -server -log
