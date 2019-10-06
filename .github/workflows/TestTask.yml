@@ -1,0 +1,26 @@
+name: TestTask
+
+on:
+  push:
+    paths:
+    - '**.yml'
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    
+    steps:
+    
+    - name: LogAllEnv
+      run: set
+      
+    - uses: actions/checkout@v1
+    
+    - name: ListProgram
+      run : |
+        dir C:/Program Files
+        dir D:
+        dir D:/Program Files
+    
+    
