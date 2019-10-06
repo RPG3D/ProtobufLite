@@ -20,7 +20,8 @@ jobs:
     - name: ListProgram
       run : |
         dir "C:/Program Files"
-        dir D:
-        dir "D:/Program Files"
-    
-    
+        dir "C:/Program Files/Common Files"
+        dir "C:/Program Files/Docker"
+        dir "C:/Program Files/PackageManagement"
+        dir "C:/Program Files/Microsoft SDKs"
+        dir "C:/Program Files (x86)"
