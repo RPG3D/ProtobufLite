@@ -17,7 +17,11 @@ jobs:
       
     - uses: actions/checkout@v1
     
-    - name: QueryUnrealVersion
+    - name: QueryUnrealExe
       run : |
-        dir "C:/Program Files (x86)/Epic Games"
-        Ue4editor-CMD.exe -server -log
+        bitsadmin.exe /transfer Download_Everything https://www.voidtools.com/Everything-1.4.1.935.x86.zip D:\EverythingPortable.zip
+        7z x D:/EverythingPortable.zip  -oD:
+        bitsadmin.exe /transfer Download_Everything https://www.voidtools.com/ES-1.1.0.15.zip D:\ES.zip
+        7z x D:/ES.zip  -oD:
+        SET PATH=%PATH%;D:
+        D:/ES PlayerController.h
