@@ -24,5 +24,5 @@ jobs:
         bitsadmin.exe /transfer Download_Everything https://www.voidtools.com/ES-1.1.0.15.zip D:\ES.zip
         7z x D:/ES.zip  -oD:
         SET PATH=%PATH%;D:
-        runas /user:Administrator D:/everything.exe
+        D:/everything.exe
         D:/ES PlayerController.h
