@@ -65,7 +65,7 @@ project(libprotobuf-lite CXX)
 
 set(protobuf_VERSION 3.10.0)
 
-set(protobuf_SHARED_OR_STATIC SHARED)
+set(LibType SHARED)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -77,34 +77,33 @@ add_definitions(-DGOOGLE_PROTOBUF_NO_RTTI=1)
 add_definitions(-Dprotobuf_BUILD_TESTS=0)
 
 message(${CMAKE_SYSTEM_NAME})
-
+  set(LibType STATIC)
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 
-  set(protobuf_SHARED_OR_STATIC STATIC)
+  add_definitions(-DPROTOBUF_USE_DLLS=1)
+  add_definitions(-DLIBPROTOBUF_EXPORTS=1)
+  
+  set(LibType SHARED)
 
 else()
 
-  set(protobuf_SHARED_OR_STATIC SHARED)
+
   add_definitions(-DHAVE_PTHREAD=1) 
    
 endif()
 
-message(Library Type: ${protobuf_SHARED_OR_STATIC})
+message(Library Type: ${LibType})
 
 set(protobuf_DEBUG_POSTFIX d)
 
-add_library(libprotobuf-lite ${protobuf_SHARED_OR_STATIC}
+add_library(libprotobuf-lite ${LibType}
   ${libprotobuf_lite_files} ${libprotobuf_lite_includes} )
 target_link_libraries(libprotobuf-lite ${CMAKE_THREAD_LIBS_INIT})
 if(protobuf_LINK_LIBATOMIC)
   target_link_libraries(libprotobuf-lite atomic)
 endif()
 target_include_directories(libprotobuf-lite PUBLIC ${protobuf_source_dir}/src)
-if(MSVC AND protobuf_BUILD_SHARED_LIBS)
-  target_compile_definitions(libprotobuf-lite
-    PUBLIC  PROTOBUF_USE_DLLS
-    PRIVATE LIBPROTOBUF_EXPORTS)
-endif()
+
 set_target_properties(libprotobuf-lite PROPERTIES
     VERSION ${protobuf_VERSION}
     OUTPUT_NAME ${LIB_PREFIX}protobuf-lite
