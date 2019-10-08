@@ -87,8 +87,16 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
 
 else()
 
-
   add_definitions(-DHAVE_PTHREAD=1) 
+  
+  if(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
+	add_definitions(-DANDROID_ABI="armeabi-v7a with NEON" )
+	
+	add_definitions(-DPROTOBUF_USE_DLLS=1)
+	add_definitions(-DLIBPROTOBUF_EXPORTS=1)
+  
+	set(LibType SHARED)
+  endif()
    
 endif()
 
@@ -96,16 +104,14 @@ message(Library Type: ${LibType})
 
 set(protobuf_DEBUG_POSTFIX d)
 
-add_library(libprotobuf-lite ${LibType}
-  ${libprotobuf_lite_files} ${libprotobuf_lite_includes} )
-target_link_libraries(libprotobuf-lite ${CMAKE_THREAD_LIBS_INIT})
-if(protobuf_LINK_LIBATOMIC)
-  target_link_libraries(libprotobuf-lite atomic)
-endif()
+add_library(libprotobuf-lite ${LibType}  ${libprotobuf_lite_files} ${libprotobuf_lite_includes} )
+
+
+
 target_include_directories(libprotobuf-lite PUBLIC ${protobuf_source_dir}/src)
 
 set_target_properties(libprotobuf-lite PROPERTIES
     VERSION ${protobuf_VERSION}
     OUTPUT_NAME ${LIB_PREFIX}protobuf-lite
     DEBUG_POSTFIX "${protobuf_DEBUG_POSTFIX}")
-add_library(protobuf::libprotobuf-lite ALIAS libprotobuf-lite)
+
