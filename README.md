@@ -1,3 +1,3 @@
 # ProtobufLite
 test auto compile ProtobufLite on Github Action
-compile Win64&Android on Windows; iOS on Mac
+compile Win64&Android on Windows; Mac&iOS on Mac
