@@ -91,7 +91,8 @@ else()
   
   if(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
 	add_definitions(-DANDROID_ABI="armeabi-v7a with NEON" )
-	set(LibType SHARED)
+	#set(LibType SHARED)
+	add_link_options(-fuse-ld=bfd)
   endif()
    
 endif()
@@ -99,6 +100,7 @@ endif()
 message(Library Type: ${LibType})
 
 set(protobuf_DEBUG_POSTFIX d)
+
 
 add_library(libprotobuf-lite ${LibType}  ${libprotobuf_lite_files} ${libprotobuf_lite_includes} )
 
