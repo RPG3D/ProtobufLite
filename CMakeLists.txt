@@ -91,8 +91,7 @@ else()
   
   if(${CMAKE_SYSTEM_NAME} STREQUAL "Android")
 	add_definitions(-DANDROID_ABI="armeabi-v7a with NEON" )
-	#set(LibType SHARED)
-	add_link_options(-fuse-ld=bfd)
+	set(LibType SHARED)
   endif()
    
 endif()
