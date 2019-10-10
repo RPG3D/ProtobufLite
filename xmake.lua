@@ -48,7 +48,7 @@ target("ProtobufLite")
 	
 	if (is_os("android")) then
 		set_kind("shared")	
-		add_defines("ANDROID_STL=gnustl_shared")
+		--add_defines("ANDROID_STL=gnustl_shared")
 
 	end
 
