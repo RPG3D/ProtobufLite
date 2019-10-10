@@ -42,12 +42,14 @@ target("ProtobufLite")
 		set_kind("shared")
 		add_defines("PROTOBUF_USE_DLLS=1")
 		add_defines("LIBPROTOBUF_EXPORTS=1")
+	else
+		add_defines("HAVE_PTHREAD=1")
 	end
 	
 	if (is_os("android")) then
 		set_kind("shared")	
 		add_defines("ANDROID_STL=gnustl_shared")
-		add_defines("HAVE_PTHREAD=1")
+
 	end
 
 
