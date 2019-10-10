@@ -1,10 +1,7 @@
 
-if not exist "%~dp0%VCBuild" (
-	mkdir VCBuild
-)
+xmake  f -p windows   ProtobufLite
+xmake -b ProtobufLite
 
-cd VCBuild
+pause
 
-call cmake  ../
 
-call cmake --build . -t libprotobuf-lite --config Release

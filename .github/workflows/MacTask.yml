@@ -3,7 +3,7 @@ name: MacTask
 on:
   push:
     paths:
-    - '**.md'
+    - '**.lua'
 
 jobs:
   build:
@@ -16,6 +16,10 @@ jobs:
       run: printenv
     
     - uses: actions/checkout@v1
+
+    - uses: xmake-io/github-action-setup-xmake@v1
+      with:
+        xmake-version: '2.2.8'
 
     - name: BuildIOS
       run: sh ./BuildIOS.sh  
@@ -31,8 +35,8 @@ jobs:
         git config user.name "$GITHUB_ACTOR"
         git checkout master
         sudo git pull origin master
-        sudo git add Release/iOS
-        sudo git add Release/Darwin
+        sudo git add build/iphoneos/*
+        sudo git add build/macosx/*
         sudo git commit -m "[$GITHUB_WORKFLOW]Auto commit from Github Action"
         git remote set-url --push origin https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY
         git push origin master
