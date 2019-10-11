@@ -1,4 +1,4 @@
 #!/bin/(shell)
 
 xmake  f -p macosx
-xmake -b ProtobufLite
+xmake -b

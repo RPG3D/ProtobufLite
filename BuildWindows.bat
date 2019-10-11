@@ -1,6 +1,6 @@
 
-xmake  f -p windows   ProtobufLite
-xmake -b ProtobufLite
+xmake  f -p windows
+xmake -b
 
 pause
 
