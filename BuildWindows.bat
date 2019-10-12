@@ -1,6 +1,6 @@
 
 xmake  f -p windows
-xmake -b
+xmake -v -b
 
 pause
 

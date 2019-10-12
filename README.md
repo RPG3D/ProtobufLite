@@ -1,16 +1,6 @@
 
-This is Lua 5.4.0 (beta), released on 02 Oct 2019.
+This is Protobuf Lite 3.10.0
 
-For installation instructions, license details, and
-further information about Lua, see doc/readme.html.
+STATIC for Mac & iOS & Android & Win64
 
-
-add Log2 define for Android
-
-disable system() on __APPLE__
-
-STATIC for Mac & iOS
-
-SHARED for Win64&Android
-
-rename G(L) to LUA_G(L)
+UE4 use its own allocator, which will cause a crash when using ProtobufLite as shared ibrary...
