@@ -1,5 +1,5 @@
 
-xmake  f -p windows
+xmake  f -p windows --vs=2019
 xmake -v -b
 
 pause

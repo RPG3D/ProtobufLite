@@ -1194,8 +1194,8 @@ void Reflection::SetString(Message* message, const FieldDescriptor* field,
                            std::string value) const {
   USAGE_CHECK_ALL(SetString, SINGULAR, STRING);
   if (field->is_extension()) {
-    return MutableExtensionSet(message)->SetString(field->number(),
-                                                   field->type(), std::move(value), field);
+    return MutableExtensionSet(message)->SetString(
+        field->number(), field->type(), std::move(value), field);
   } else {
     switch (field->options().ctype()) {
       default:  // TODO(kenton):  Support other string reps.
@@ -1214,7 +1214,8 @@ void Reflection::SetString(Message* message, const FieldDescriptor* field,
               ->UnsafeSetDefault(default_ptr);
         }
         MutableField<ArenaStringPtr>(message, field)
-            ->Mutable(default_ptr, GetArena(message))->assign(std::move(value));
+            ->Mutable(default_ptr, GetArena(message))
+            ->assign(std::move(value));
         break;
       }
     }
@@ -1264,7 +1265,8 @@ void Reflection::SetRepeatedString(Message* message,
     switch (field->options().ctype()) {
       default:  // TODO(kenton):  Support other string reps.
       case FieldOptions::STRING:
-        MutableRepeatedField<std::string>(message, field, index)->assign(std::move(value));
+        MutableRepeatedField<std::string>(message, field, index)
+            ->assign(std::move(value));
         break;
     }
   }
@@ -2077,19 +2079,19 @@ void Reflection::ClearOneof(Message* message,
   }
 }
 
-#define HANDLE_TYPE(TYPE, CPPTYPE, CTYPE)                               \
-  template <>                                                           \
-  const RepeatedField<TYPE>& Reflection::GetRepeatedField<TYPE>(        \
-      const Message& message, const FieldDescriptor* field) const {     \
-    return *static_cast<RepeatedField<TYPE>*>(MutableRawRepeatedField(  \
-        const_cast<Message*>(&message), field, CPPTYPE, CTYPE, NULL));  \
-  }                                                                     \
-                                                                        \
-  template <>                                                           \
-  RepeatedField<TYPE>* Reflection::MutableRepeatedField<TYPE>(          \
-      Message * message, const FieldDescriptor* field) const {          \
-    return static_cast<RepeatedField<TYPE>*>(                           \
-        MutableRawRepeatedField(message, field, CPPTYPE, CTYPE, NULL)); \
+#define HANDLE_TYPE(TYPE, CPPTYPE, CTYPE)                                \
+  template <>                                                            \
+  const RepeatedField<TYPE>& Reflection::GetRepeatedFieldInternal<TYPE>( \
+      const Message& message, const FieldDescriptor* field) const {      \
+    return *static_cast<RepeatedField<TYPE>*>(MutableRawRepeatedField(   \
+        const_cast<Message*>(&message), field, CPPTYPE, CTYPE, NULL));   \
+  }                                                                      \
+                                                                         \
+  template <>                                                            \
+  RepeatedField<TYPE>* Reflection::MutableRepeatedFieldInternal<TYPE>(   \
+      Message * message, const FieldDescriptor* field) const {           \
+    return static_cast<RepeatedField<TYPE>*>(                            \
+        MutableRawRepeatedField(message, field, CPPTYPE, CTYPE, NULL));  \
   }
 
 HANDLE_TYPE(int32, FieldDescriptor::CPPTYPE_INT32, -1);

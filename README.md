@@ -1,5 +1,5 @@
 
-This is Protobuf Lite 3.10.0
+This is Protobuf Lite 3.11.0
 
 STATIC for Mac & iOS & Android & Win64
 

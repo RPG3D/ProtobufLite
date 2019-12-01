@@ -37,6 +37,7 @@
 
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream.h>
+#include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
 #include <google/protobuf/implicit_weak_message.h>
 #include <google/protobuf/metadata_lite.h>
@@ -218,12 +219,12 @@ class PROTOBUF_EXPORT EpsCopyInputStream {
     overall_limit_ = 0;
     if (flat.size() > kSlopBytes) {
       limit_ = kSlopBytes;
-      limit_end_ = buffer_end_ = flat.end() - kSlopBytes;
+      limit_end_ = buffer_end_ = flat.data() + flat.size() - kSlopBytes;
       next_chunk_ = buffer_;
       if (aliasing_ == kOnPatch) aliasing_ = kNoDelta;
-      return flat.begin();
+      return flat.data();
     } else {
-      std::memcpy(buffer_, flat.begin(), flat.size());
+      std::memcpy(buffer_, flat.data(), flat.size());
       limit_ = 0;
       limit_end_ = buffer_end_ = buffer_ + flat.size();
       next_chunk_ = nullptr;
@@ -270,6 +271,9 @@ class PROTOBUF_EXPORT EpsCopyInputStream {
   // DoneFallback.
   uint32 last_tag_minus_1_ = 0;
   int overall_limit_ = INT_MAX;  // Overall limit independent of pushed limits.
+  // Pretty random large number that seems like a safe allocation on most
+  // systems. TODO(gerbens) do we need to set this as build flag?
+  enum { kSafeStringSize = 50000000 };
 
   std::pair<const char*, bool> DoneFallback(const char* ptr, int d);
   const char* Next(int overrun, int d);
@@ -491,7 +495,7 @@ PROTOBUF_EXPORT
 std::pair<const char*, uint32> ReadTagFallback(const char* p, uint32 res);
 
 // Same as ParseVarint but only accept 5 bytes at most.
-inline const char* ReadTag(const char* p, uint32* out, uint32 max_tag = 0) {
+inline const char* ReadTag(const char* p, uint32* out, uint32 /*max_tag*/ = 0) {
   uint32 res = static_cast<uint8>(p[0]);
   if (res < 128) {
     *out = res;
@@ -627,25 +631,13 @@ const char* EpsCopyInputStream::ReadPackedVarint(const char* ptr, Add add) {
 PROTOBUF_EXPORT
 bool VerifyUTF8(StringPiece s, const char* field_name);
 
+inline bool VerifyUTF8(const std::string* s, const char* field_name) {
+  return VerifyUTF8(*s, field_name);
+}
+
 // All the string parsers with or without UTF checking and for all CTypes.
 PROTOBUF_EXPORT PROTOBUF_MUST_USE_RESULT const char* InlineGreedyStringParser(
     std::string* s, const char* ptr, ParseContext* ctx);
-
-PROTOBUF_EXPORT PROTOBUF_MUST_USE_RESULT const char*
-InlineGreedyStringParserUTF8(std::string* s, const char* ptr, ParseContext* ctx,
-                             const char* field_name);
-// Inline because we don't want to pay the price of field_name in opt mode.
-inline PROTOBUF_MUST_USE_RESULT const char* InlineGreedyStringParserUTF8Verify(
-    std::string* s, const char* ptr, ParseContext* ctx,
-    const char* field_name) {
-  auto p = InlineGreedyStringParser(s, ptr, ctx);
-#ifndef NDEBUG
-  VerifyUTF8(*s, field_name);
-#else   // !NDEBUG
-  (void)field_name;
-#endif  // !NDEBUG
-  return p;
-}
 
 
 // Add any of the following lines to debug which parse function is failing.
