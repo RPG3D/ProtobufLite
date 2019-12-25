@@ -39,6 +39,7 @@
 #include <cmath>
 #include <iterator>
 #include <limits>
+#include <stdlib.h>
 
 #include <google/protobuf/stubs/logging.h>
 #include <google/protobuf/stubs/stl_util.h>
@@ -1330,7 +1331,7 @@ bool safe_strtof(const char* str, float* value) {
 #if defined(_WIN32) || defined (__hpux)  // has no strtof()
   *value = internal::NoLocaleStrtod(str, &endptr);
 #else
-  *value = strtof(str, &endptr);
+  *value = strtod(str, &endptr);
 #endif
   return *str != 0 && *endptr == 0 && errno == 0;
 }
