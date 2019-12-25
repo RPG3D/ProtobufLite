@@ -5,6 +5,9 @@ xmake -b
 xmake  f -p android  -a arm64-v8a --ndk_cxxstl=gnustl_shared --ar=%ANDROID_NDK_ROOT%/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/aarch64-linux-android/bin/ar.exe
 xmake -b
 
+xmake  f -p android  -a x86_64 --ndk_cxxstl=gnustl_shared --ar=%ANDROID_NDK_ROOT%/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/aarch64-linux-android/bin/ar.exe
+xmake -b
+
 pause
 
 
